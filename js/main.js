@@ -1,7 +1,5 @@
 const root = document.querySelector('#chart');
 const data = [5, 8, 2, 1, 15, 2, 3, 5, 9, 11, 10, 4, 3, 14, 1, 7, 10, 3, 2, 13, 18];
-const colors = ['green', 'yellow', 'red']
-
 
 const handleChartColor = (value) => {
     if (value <= 5 || value == 0) {
@@ -19,61 +17,57 @@ const main = () => {
     const td = document.createElement('td');
     const tr = document.createElement('tr');
 
-    let gradation = td.cloneNode();
-    let gradwrapper = document.createElement('span')
-    let gradationArrays = [0, ...data].sort((a, b) => a - b);
+    let chartValueBody = td.cloneNode();
+    let chartValue = document.createElement('span')
+    let chartValuesList = [0, ...data].sort((a, b) => a - b);
 
-    gradationArrays = gradationArrays.filter((v, i) => gradationArrays.indexOf(v) === i)
+    chartValuesList = chartValuesList.filter((v, i) => chartValuesList.indexOf(v) === i)
 
-    for (gradVal of gradationArrays) {
-        let clss = gradwrapper.cloneNode()
-        clss.style.position = 'absolute';
-        clss.style.bottom = `${(gradVal * 20)}px`;
-        clss.textContent = gradVal
+    for (chartSelfValue of chartValuesList) {
+        let cloneChartValue = chartValue.cloneNode()
+        cloneChartValue.style.position = 'absolute';
+        cloneChartValue.style.bottom = `${(chartSelfValue * 20)}px`;
+        cloneChartValue.textContent = chartSelfValue
 
-        gradation.appendChild(clss)
+        chartValueBody.appendChild(cloneChartValue)
     }
 
+    chartValueBody.style.position = `relative`
+    chartValueBody.style.width = `40px`
+    chartValueBody.style.height = `${(Math.max(...data)) * 20}px`
 
 
-
-    gradation.style.position = `relative`
-    gradation.style.width = `40px`
-    gradation.style.height = `${(Math.max(...data)) * 20}px`
-
-
-
-    tr.appendChild(gradation)
+    tr.appendChild(chartValueBody)
 
 
     for (let i = 0; i < data.length; i++) {
 
-        let clone = td.cloneNode();
-        clone.style.width = `40px`;
-        clone.style.height = `${data[i] * 20}px`;
-        clone.style.position = `relative`;
+        let cloneChart = td.cloneNode();
+        cloneChart.style.width = `40px`;
+        cloneChart.style.height = `${data[i] * 20}px`;
+        cloneChart.style.position = `relative`;
 
-        let graphsValue = document.createElement('p');
-        graphsValue.textContent = i;
-        graphsValue.style.position = `absolute`;
-        graphsValue.style.left = `calc( 50% - 8px)`;
-        graphsValue.style.bottom = `-30px`;
+        let chartIndex = document.createElement('p');
+        chartIndex.textContent = i;
+        chartIndex.style.position = `absolute`;
+        chartIndex.style.left = `calc( 50% - 8px)`;
+        chartIndex.style.bottom = `-30px`;
 
-        let graphs = document.createElement('div')
-        graphs.style.height = `${data[i] * 20}px`;
-        graphs.style.width = `40px`;
+        let chart = document.createElement('div')
+        chart.style.height = `${data[i] * 20}px`;
+        chart.style.width = `40px`;
 
 
         const [backgroundColorValue, backgroundGradient] = handleChartColor(data[i])
 
-        graphs.style.background = backgroundColorValue;
-        graphs.style.background = backgroundGradient;
-        graphs.style.position = `absolute`;
-        graphs.style.left = `0`;
-        graphs.style.bottom = `0`;
-        clone.appendChild(graphs)
-        clone.appendChild(graphsValue)
-        tr.appendChild(clone)
+        chart.style.background = backgroundColorValue;
+        chart.style.background = backgroundGradient;
+        chart.style.position = `absolute`;
+        chart.style.left = `0`;
+        chart.style.bottom = `0`;
+        cloneChart.appendChild(chart)
+        cloneChart.appendChild(chartIndex)
+        tr.appendChild(cloneChart)
 
     }
 
@@ -81,4 +75,8 @@ const main = () => {
     table.appendChild(tbody)
     root.appendChild(table)
 }
-main()
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    main()
+});
